@@ -19,7 +19,7 @@ var greetDefault = `
 func Execute() (err error) {
 
 	// get config
-	_, err = config.SetupConfig()
+	getConfig, err := config.SetupConfig()
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Failed to set up configuration err: %v", err.Error()))
 	}
@@ -35,7 +35,7 @@ func Execute() (err error) {
 
 	// register command
 	rootCmd.AddCommand(RegisterHTTP())
-	rootCmd.AddCommand(RegisterConsumer())
+	rootCmd.AddCommand(RegisterConsumer(getConfig.Kafka))
 
 	return rootCmd.Execute()
 }

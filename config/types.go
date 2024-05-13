@@ -1,13 +1,21 @@
 package config
 
+import (
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
 type KafkaConfig struct {
-	KafkaBootstrapServers string
-	KafkaTopicActivity    string
+	BootstrapServers string
+	GroupID          string
+	Topic            KafkaTopic
+	WorkerPool       int
+}
+
+type KafkaTopic struct {
+	Activity string
 }
 
 type MongoConfig struct {
-	MongoHost     string
-	MongoPort     string
-	MongoUser     string
-	MongoPassword string
+	Client   *mongo.Client
+	Database string
 }

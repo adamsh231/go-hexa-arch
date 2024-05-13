@@ -4,6 +4,8 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"os"
+	"strconv"
+	"svc-activity/libraries"
 )
 
 type Config struct {
@@ -20,23 +22,38 @@ func SetupConfig() (config Config, err error) {
 	}
 
 	// log
-	logFormat := os.Getenv("APP_LOG_FORMAT")
-	setupLogger(logFormat)
+	setupLogger()
 
 	// Kafka
-	config.Kafka.KafkaBootstrapServers = os.Getenv("KAFKA_BOOTSTRAP_SERVERS")
-	config.Kafka.KafkaTopicActivity = os.Getenv("KAFKA_TOPIC_ACTIVITY")
+	config.Kafka.BootstrapServers = os.Getenv("KAFKA_BOOTSTRAP_SERVERS")
+	config.Kafka.GroupID = os.Getenv("KAFKA_GROUP_ID")
+	config.Kafka.Topic.Activity = os.Getenv("KAFKA_TOPIC_ACTIVITY")
+	if config.Kafka.WorkerPool, err = strconv.Atoi(os.Getenv("KAFKA_CONSUMER_WORKER_POOL")); err != nil {
+		config.Kafka.WorkerPool = 1 // default worker pool (no pool)
+	}
 
 	// Mongo
-	config.Mongo.MongoHost = os.Getenv("MONGO_HOST")
-	config.Mongo.MongoPort = os.Getenv("MONGO_PORT")
-	config.Mongo.MongoUser = os.Getenv("MONGO_USER")
-	config.Mongo.MongoPassword = os.Getenv("MONGO_PASSWORD")
+	logrus.Info("Connecting to MongoDB!")
+	srv := os.Getenv("MONGO_SRV") == "true"
+	mongoLibrary := libraries.MongoLibrary{
+		Host:     os.Getenv("MONGO_HOST"),
+		Port:     os.Getenv("MONGO_PORT"),
+		User:     os.Getenv("MONGO_USER"),
+		Password: os.Getenv("MONGO_PASSWORD"),
+		SSL:      os.Getenv("MONGO_SSL"),
+		SRV:      srv,
+	}
+	config.Mongo.Database = os.Getenv("MONGO_DATABASE")
+	config.Mongo.Client, err = mongoLibrary.Connect()
+	if err != nil {
+		return config, err
+	}
+	logrus.Info("Connected to MongoDB!")
 
 	return config, err
 }
 
-func setupLogger(format string) {
+func setupLogger() {
 
 	// set log format
 	logrus.SetFormatter(&logrus.JSONFormatter{

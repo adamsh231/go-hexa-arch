@@ -17,7 +17,7 @@ var greetHTTP = `
 func RegisterHTTP() *cobra.Command {
 	return &cobra.Command{
 		Use:   "http",
-		Short: "http application",
+		Short: "activity http",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println(greetHTTP)
 		},
