@@ -19,7 +19,7 @@ var greetDefault = `
 func Execute() (err error) {
 
 	// get config
-	_, err = config.LoadConfig()
+	_, err = config.SetupConfig()
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Failed to set up configuration err: %v", err.Error()))
 	}
@@ -33,10 +33,8 @@ func Execute() (err error) {
 		},
 	}
 
-	// register http
+	// register command
 	rootCmd.AddCommand(RegisterHTTP())
-
-	// register consumer
 	rootCmd.AddCommand(RegisterConsumer())
 
 	return rootCmd.Execute()

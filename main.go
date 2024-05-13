@@ -1,12 +1,13 @@
 package main
 
 import (
-	"log"
+	"github.com/sirupsen/logrus"
 	"svc-activity/cmd"
+	"svc-activity/utils"
 )
 
 func main() {
 	if err := cmd.Execute(); err != nil {
-		log.Fatal("Can't start application command!")
+		logrus.Fatal(utils.PrintMessageWithError("Can't start application command!", err))
 	}
 }
