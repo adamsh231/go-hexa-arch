@@ -51,11 +51,14 @@ func handler() {
 	}
 	kafkaConfig := getConfig.Kafka
 
-	// topics - topic and handler added here and would be automatically consume
+	// init injector
+	inject := config.InitInjection(getConfig)
+
+	// register topicHandlers - topic and handler added here and would be automatically consume
 	topicHandlers := []topicHandler{
 		{
 			Topic:   kafkaConfig.Topic.Activity,
-			Handler: consumer.ReceiveAndInsertActivity,
+			Handler: consumer.NewHandler(inject).ReceiveAndInsertActivity,
 		},
 	}
 
