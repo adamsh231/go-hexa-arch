@@ -19,7 +19,7 @@ type KafkaLibrary struct {
 	GroupID          string
 }
 
-func NewKafkaLibrary(servers, topic, groupID string) KafkaLibrary{
+func NewKafkaLibrary(servers, topic, groupID string) KafkaLibrary {
 	return KafkaLibrary{
 		BootstrapServers: servers,
 		Topic:            topic,
@@ -27,7 +27,7 @@ func NewKafkaLibrary(servers, topic, groupID string) KafkaLibrary{
 	}
 }
 
-func (lib KafkaLibrary) Consume(wg *sync.WaitGroup) {
+func (lib KafkaLibrary) Consume(wg *sync.WaitGroup, handler func(message []byte)) {
 
 	// activity
 	reader := segmentioKafka.NewReader(segmentioKafka.ReaderConfig{
@@ -37,11 +37,11 @@ func (lib KafkaLibrary) Consume(wg *sync.WaitGroup) {
 	})
 
 	// start consumer
-	go startConsumer(reader)
-
-	// wait terminate signal
 	termSignal := make(chan os.Signal, 1)
 	signal.Notify(termSignal, syscall.SIGINT, syscall.SIGTERM)
+	go startConsumer(reader, handler)
+
+	// wait terminate signal
 	<-termSignal
 
 	// close consumer
@@ -50,16 +50,20 @@ func (lib KafkaLibrary) Consume(wg *sync.WaitGroup) {
 	wg.Done()
 }
 
-func startConsumer(reader *segmentioKafka.Reader) {
+func startConsumer(reader *segmentioKafka.Reader, handler func(message []byte)) {
 	logrus.Info("starting consumer..")
 	for {
+
+		// receive message
 		msg, err := reader.ReadMessage(context.Background())
 		if err != nil {
 			logrus.Error(fmt.Sprintf("consume error on topic %s", msg.Topic), err)
 			time.Sleep(time.Second) // prevent massive error when error occurred
-		} else {
-			logrus.Info(fmt.Sprintf("message received at topic %s offset %d key %s partition %d", msg.Topic, msg.Offset, string(msg.Key), msg.Partition))
 		}
+
+		// handle message
+		logrus.Info(fmt.Sprintf("message received at topic %s offset %d key %s partition %d", msg.Topic, msg.Offset, string(msg.Key), msg.Partition))
+		handler(msg.Value)
 	}
 }
 

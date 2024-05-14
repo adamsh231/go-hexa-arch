@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 	"log"
 	"svc-activity/config"
+	"svc-activity/internal/adapter/handler/consumer"
 	"svc-activity/libraries"
 	"sync"
 )
@@ -34,7 +35,12 @@ func RegisterConsumer() *cobra.Command {
 	}
 }
 
-func handler(){
+type topicHandler struct {
+	Topic   string
+	Handler func(msg []byte)
+}
+
+func handler() {
 
 	var wg sync.WaitGroup
 
@@ -45,15 +51,18 @@ func handler(){
 	}
 	kafkaConfig := getConfig.Kafka
 
-	// topics
-	topics := []string{
-		kafkaConfig.Topic.Activity,
+	// topics - topic and handler added here and would be automatically consume
+	topicHandlers := []topicHandler{
+		{
+			Topic:   kafkaConfig.Topic.Activity,
+			Handler: consumer.ReceiveAndInsertActivity,
+		},
 	}
 
 	// running n worker consumer per topic
-	for _, topic := range topics{
-		kafkaLib := libraries.NewKafkaLibrary(kafkaConfig.BootstrapServers, topic, kafkaConfig.GroupID)
-		dispatchWorker(&wg, kafkaConfig.WorkerPool, kafkaLib.Consume)
+	for _, topicHandler := range topicHandlers {
+		kafkaLib := libraries.NewKafkaLibrary(kafkaConfig.BootstrapServers, topicHandler.Topic, kafkaConfig.GroupID)
+		dispatchWorker(&wg, kafkaConfig.WorkerPool, kafkaLib.Consume, topicHandler.Handler)
 	}
 
 	wg.Wait()
@@ -63,9 +72,9 @@ func handler(){
 
 }
 
-func dispatchWorker(wg *sync.WaitGroup, workerCount int, job func(wg *sync.WaitGroup)){
+func dispatchWorker(wg *sync.WaitGroup, workerCount int, job func(wg *sync.WaitGroup, handler func(message []byte)), handler func(message []byte)) {
 	for i := 0; i < workerCount; i++ {
 		wg.Add(1)
-		go job(wg)
+		go job(wg, handler)
 	}
 }
