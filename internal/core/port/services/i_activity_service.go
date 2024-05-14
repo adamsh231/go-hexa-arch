@@ -1,4 +1,4 @@
-package activity
+package services
 
 import (
 	"svc-activity/internal/core/domain/entities"

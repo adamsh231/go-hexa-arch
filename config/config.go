@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"os"
 	"strconv"
-	"svc-activity/libraries"
+	"svc-activity/internal/adapter/libraries/database"
 	"svc-activity/utils"
 )
 
@@ -41,7 +41,7 @@ func SetupConfig() (config Config, err error) {
 	password := os.Getenv("MONGO_PASSWORD")
 	ssl := os.Getenv("MONGO_SSL")
 	srv := os.Getenv("MONGO_SRV") == "true"
-	mongoLibrary := libraries.NewMongoLibrary(host, port, user, password, ssl, srv)
+	mongoLibrary := database.NewMongoLibrary(host, port, user, password, ssl, srv)
 	config.Mongo.Database = os.Getenv("MONGO_DATABASE")
 	config.Mongo.Client, err = mongoLibrary.Connect()
 	if err != nil {

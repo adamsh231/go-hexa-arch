@@ -2,12 +2,12 @@ package config
 
 import (
 	"svc-activity/internal/adapter/repository/mongo"
-	"svc-activity/internal/core/port/services/activity"
+	services2 "svc-activity/internal/core/port/services"
 	"svc-activity/internal/core/services"
 )
 
 type ServiceInjector struct {
-	ActivityService activity.IActivityService
+	ActivityService services2.IActivityService
 }
 
 func InitInjection(config Config) (inject ServiceInjector){

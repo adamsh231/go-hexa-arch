@@ -6,7 +6,7 @@ import (
 	"log"
 	"svc-activity/config"
 	"svc-activity/internal/adapter/handler/consumer"
-	"svc-activity/libraries"
+	"svc-activity/internal/adapter/libraries/pubsub"
 	"sync"
 )
 
@@ -66,8 +66,8 @@ func consume() {
 
 	// running n worker consumer per topic
 	for _, topicHandler := range topicHandlers {
-		kafkaLib := libraries.NewKafkaLibrary(kafkaConfig.BootstrapServers, topicHandler.Topic, kafkaConfig.GroupID)
-		dispatchWorker(&wg, kafkaConfig.WorkerPool, kafkaLib.Consume, topicHandler.Handler)
+		kafkaLib := pubsub.NewKafkaLibrary(kafkaConfig.BootstrapServers, topicHandler.Topic, kafkaConfig.GroupID)
+		dispatchWorker(&wg, kafkaConfig.WorkerPool, kafkaLib.Subscribe, topicHandler.Handler)
 	}
 
 	wg.Wait()

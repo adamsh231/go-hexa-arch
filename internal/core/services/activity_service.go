@@ -4,14 +4,15 @@ import (
 	"fmt"
 	"svc-activity/internal/core/domain/entities"
 	"svc-activity/internal/core/domain/models"
-	"svc-activity/internal/core/port/services/activity"
+	"svc-activity/internal/core/port/repositories"
+	"svc-activity/internal/core/port/services"
 )
 
 type activityService struct {
-	repo activity.IActivityRepository
+	repo repositories.IActivityRepository
 }
 
-func NewActivityService(repo activity.IActivityRepository) activity.IActivityService{
+func NewActivityService(repo repositories.IActivityRepository) services.IActivityService {
 	return activityService{repo: repo}
 }
 

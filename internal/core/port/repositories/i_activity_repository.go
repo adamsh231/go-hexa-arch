@@ -1,4 +1,4 @@
-package activity
+package repositories
 
 import "svc-activity/internal/core/domain/models"
 

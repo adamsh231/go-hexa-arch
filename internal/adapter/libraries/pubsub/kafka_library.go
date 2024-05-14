@@ -1,4 +1,4 @@
-package libraries
+package pubsub
 
 import (
 	"context"
@@ -8,32 +8,36 @@ import (
 	"os"
 	"os/signal"
 	"strings"
+	"svc-activity/internal/core/port/libraries"
 	"sync"
 	"syscall"
 	"time"
 )
 
-type KafkaLibrary struct {
-	BootstrapServers string
-	Topic            string
-	GroupID          string
+type kafkaLibrary struct {
+	bootstrapServers string
+	topic            string
+	groupID          string
 }
 
-func NewKafkaLibrary(servers, topic, groupID string) KafkaLibrary {
-	return KafkaLibrary{
-		BootstrapServers: servers,
-		Topic:            topic,
-		GroupID:          groupID,
+func NewKafkaLibrary(servers, topic, groupID string) libraries.IPubSubLibrary {
+	return kafkaLibrary{
+		bootstrapServers: servers,
+		topic:            topic,
+		groupID:          groupID,
 	}
 }
 
-func (lib KafkaLibrary) Consume(wg *sync.WaitGroup, handler func(message []byte)) {
+func (lib kafkaLibrary) Publish() {
+}
+
+func (lib kafkaLibrary) Subscribe(wg *sync.WaitGroup, handler func(message []byte)) {
 
 	// activity
 	reader := segmentioKafka.NewReader(segmentioKafka.ReaderConfig{
-		Brokers: strings.Split(lib.BootstrapServers, ","),
-		Topic:   lib.Topic,
-		GroupID: lib.GroupID,
+		Brokers: strings.Split(lib.bootstrapServers, ","),
+		Topic:   lib.topic,
+		GroupID: lib.groupID,
 	})
 
 	// start consumer
@@ -63,6 +67,7 @@ func startConsumer(reader *segmentioKafka.Reader, handler func(message []byte)) 
 			logrus.Info(fmt.Sprintf("message received at topic %s offset %d key %s partition %d", msg.Topic, msg.Offset, string(msg.Key), msg.Partition))
 			handler(msg.Value)
 		}
+
 	}
 }
 

@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
 	"svc-activity/internal/core/domain/models"
-	"svc-activity/internal/core/port/services/activity"
+	"svc-activity/internal/core/port/repositories"
 )
 
 type activityRepository struct {
 	client *mongo.Client
 }
 
-func NewActivityRepository(client *mongo.Client) activity.IActivityRepository {
+func NewActivityRepository(client *mongo.Client) repositories.IActivityRepository {
 	return activityRepository{client: client}
 }
 
