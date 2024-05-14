@@ -16,6 +16,17 @@ type MongoLibrary struct {
 	SSL      string
 }
 
+func NewMongoLibrary(host, port, user, password, ssl string, srv bool) MongoLibrary{
+	return MongoLibrary{
+		Host:     host,
+		Port:     port,
+		User:     user,
+		Password: password,
+		SRV:      srv,
+		SSL:      ssl,
+	}
+}
+
 func (lib MongoLibrary) Connect() (client *mongo.Client, err error) {
 
 	// Set client options

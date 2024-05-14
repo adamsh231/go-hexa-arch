@@ -3,8 +3,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"log"
-	"svc-activity/config"
 )
 
 // Art ref  => https://edukits.co/text-art/
@@ -18,12 +16,6 @@ var greetDefault = `
 
 func Execute() (err error) {
 
-	// get config
-	getConfig, err := config.SetupConfig()
-	if err != nil {
-		log.Fatal(fmt.Sprintf("Failed to set up configuration err: %v", err.Error()))
-	}
-
 	// default command
 	var rootCmd = &cobra.Command{
 		Use:   "majoo",
@@ -35,7 +27,7 @@ func Execute() (err error) {
 
 	// register command
 	rootCmd.AddCommand(RegisterHTTP())
-	rootCmd.AddCommand(RegisterConsumer(getConfig.Kafka))
+	rootCmd.AddCommand(RegisterConsumer())
 
 	return rootCmd.Execute()
 }

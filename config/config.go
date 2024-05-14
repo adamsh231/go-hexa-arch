@@ -1,11 +1,13 @@
 package config
 
 import (
+	"context"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"os"
 	"strconv"
 	"svc-activity/libraries"
+	"svc-activity/utils"
 )
 
 type Config struct {
@@ -13,7 +15,6 @@ type Config struct {
 	Mongo MongoConfig
 }
 
-// SetupConfig load configuration
 func SetupConfig() (config Config, err error) {
 
 	// load lib config
@@ -34,15 +35,13 @@ func SetupConfig() (config Config, err error) {
 
 	// Mongo
 	logrus.Info("Connecting to MongoDB!")
+	host := os.Getenv("MONGO_HOST")
+	port := os.Getenv("MONGO_PORT")
+	user := os.Getenv("MONGO_USER")
+	password := os.Getenv("MONGO_PASSWORD")
+	ssl := os.Getenv("MONGO_SSL")
 	srv := os.Getenv("MONGO_SRV") == "true"
-	mongoLibrary := libraries.MongoLibrary{
-		Host:     os.Getenv("MONGO_HOST"),
-		Port:     os.Getenv("MONGO_PORT"),
-		User:     os.Getenv("MONGO_USER"),
-		Password: os.Getenv("MONGO_PASSWORD"),
-		SSL:      os.Getenv("MONGO_SSL"),
-		SRV:      srv,
-	}
+	mongoLibrary := libraries.NewMongoLibrary(host, port, user, password, ssl, srv)
 	config.Mongo.Database = os.Getenv("MONGO_DATABASE")
 	config.Mongo.Client, err = mongoLibrary.Connect()
 	if err != nil {
@@ -51,6 +50,17 @@ func SetupConfig() (config Config, err error) {
 	logrus.Info("Connected to MongoDB!")
 
 	return config, err
+}
+
+func (c Config) CloseConfig(){
+
+	// close mongo
+	logrus.Info("disconnecting to mongo")
+	if err := c.Mongo.Client.Disconnect(context.Background()); err != nil{
+		logrus.Error(utils.PrintMessageWithError("error closing mongo", err))
+	}
+	logrus.Info("disconnected to mongo")
+
 }
 
 func setupLogger() {
