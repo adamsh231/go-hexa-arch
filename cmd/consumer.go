@@ -28,8 +28,8 @@ func RegisterConsumer() *cobra.Command {
 			// greet
 			fmt.Println(greetConsumer)
 
-			// handler
-			handler()
+			// start consume
+			consume()
 
 		},
 	}
@@ -40,7 +40,7 @@ type topicHandler struct {
 	Handler func(msg []byte)
 }
 
-func handler() {
+func consume() {
 
 	var wg sync.WaitGroup
 
@@ -53,12 +53,14 @@ func handler() {
 
 	// init injector
 	inject := config.InitInjection(getConfig)
+	handler := consumer.NewHandler(inject)
+
 
 	// register topicHandlers - topic and handler added here and would be automatically consume
 	topicHandlers := []topicHandler{
 		{
 			Topic:   kafkaConfig.Topic.Activity,
-			Handler: consumer.NewHandler(inject).ReceiveAndInsertActivity,
+			Handler: handler.ReceiveAndInsertActivity,
 		},
 	}
 
