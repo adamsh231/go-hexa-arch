@@ -1,0 +1,7 @@
+services:
+  app:
+    build:
+      context: .
+    command: ["./main", "consumer"]
+    volumes:
+      - .env:/app/.env
