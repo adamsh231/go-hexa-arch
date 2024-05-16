@@ -5,12 +5,10 @@ import (
 	"fmt"
 	segmentioKafka "github.com/segmentio/kafka-go"
 	"github.com/sirupsen/logrus"
-	"os"
-	"os/signal"
 	"strings"
 	"svc-activity/internal/core/port/libraries"
+	"svc-activity/utils"
 	"sync"
-	"syscall"
 	"time"
 )
 
@@ -41,12 +39,10 @@ func (lib kafkaLibrary) Subscribe(wg *sync.WaitGroup, handler func(message []byt
 	})
 
 	// start consumer
-	termSignal := make(chan os.Signal, 1)
-	signal.Notify(termSignal, syscall.SIGINT, syscall.SIGTERM)
 	go startConsumer(reader, handler)
 
-	// wait terminate signal
-	<-termSignal
+	// terminate signal
+	utils.WaitTerminateSignal()
 
 	// close consumer
 	closeConsumer(reader)

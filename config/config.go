@@ -11,6 +11,7 @@ import (
 )
 
 type Config struct {
+	App   AppConfig
 	Kafka KafkaConfig
 	Mongo MongoConfig
 }
@@ -24,6 +25,9 @@ func SetupConfig() (config Config, err error) {
 
 	// log
 	setupLogger()
+
+	// App
+	config.App.Port = os.Getenv("APP_PORT")
 
 	// Kafka
 	config.Kafka.BootstrapServers = os.Getenv("KAFKA_BOOTSTRAP_SERVERS")
@@ -52,11 +56,11 @@ func SetupConfig() (config Config, err error) {
 	return config, err
 }
 
-func (c Config) CloseConfig(){
+func (c Config) CloseConfig() {
 
 	// close mongo
 	logrus.Info("disconnecting to mongo")
-	if err := c.Mongo.Client.Disconnect(context.Background()); err != nil{
+	if err := c.Mongo.Client.Disconnect(context.Background()); err != nil {
 		logrus.Error(utils.PrintMessageWithError("error closing mongo", err))
 	}
 	logrus.Info("disconnected to mongo")

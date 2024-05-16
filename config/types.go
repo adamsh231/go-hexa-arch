@@ -4,6 +4,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+type AppConfig struct {
+	Port string
+}
+
 type KafkaConfig struct {
 	BootstrapServers string
 	GroupID          string

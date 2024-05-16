@@ -47,7 +47,7 @@ func consume() {
 	// setup config
 	getConfig, err := config.SetupConfig()
 	if err != nil {
-		logrus.Fatal(fmt.Sprintf("Failed to set up configuration err: %v", err.Error()))
+		logrus.Fatal(fmt.Sprintf("failed to set up configuration err: %v", err.Error()))
 	}
 	kafkaConfig := getConfig.Kafka
 
