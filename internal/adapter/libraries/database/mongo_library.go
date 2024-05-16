@@ -17,7 +17,7 @@ type mongoLibrary struct {
 	ssl      string
 }
 
-func NewMongoLibrary(host, port, user, password, ssl string, srv bool) libraries.IMongoDatabaseLibrary{
+func NewMongoLibrary(host, port, user, password, ssl string, srv bool) libraries.IMongoDatabaseLibrary {
 	return mongoLibrary{
 		host:     host,
 		port:     port,
@@ -33,9 +33,9 @@ func (lib mongoLibrary) Connect() (client *mongo.Client, err error) {
 	// Set client options
 	var uri string
 	if lib.srv {
-		uri = fmt.Sprintf("mongodb+srv://%s/?ssl=%s", lib.host, lib.ssl)
+		uri = fmt.Sprintf("mongodb+srv://%s:%s@%s/?ssl=%s", lib.user, lib.password, lib.host, lib.ssl)
 	} else {
-		uri = fmt.Sprintf("mongodb://%s:%s/?ssl=%s", lib.host, lib.port, lib.ssl)
+		uri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?ssl=%s", lib.user, lib.password, lib.host, lib.port, lib.ssl)
 	}
 	clientOptions := options.Client().ApplyURI(uri)
 

@@ -13,7 +13,7 @@ type ServiceInjector struct {
 func InitInjection(config Config) (inject ServiceInjector){
 
 	// activity
-	activityRepo := mongo.NewActivityRepository(config.Mongo.Client)
+	activityRepo := mongo.NewActivityRepository(config.Mongo.Client, config.Mongo.Database)
 	inject.ActivityService = services.NewActivityService(activityRepo)
 
 

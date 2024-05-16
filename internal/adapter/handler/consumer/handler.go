@@ -1,9 +1,10 @@
 package consumer
 
 import (
-	"fmt"
+	"encoding/json"
 	"svc-activity/config"
 	"svc-activity/internal/core/domain/entities"
+	"svc-activity/utils"
 )
 
 type Handler struct {
@@ -15,6 +16,13 @@ func NewHandler(injector config.ServiceInjector) Handler {
 }
 
 func (handler Handler) ReceiveAndInsertActivity(message []byte) {
-	handler.injector.ActivityService.InsertActivity(entities.InsertActivityInput{})
-	fmt.Println("ini handler")
+
+	// destruct
+	var activityInput entities.InsertActivityInput
+	if err := json.Unmarshal(message, &activityInput); err != nil {
+		utils.LogrusWithPayload(string(message)).Error(err)
+	}
+
+	// handling
+	handler.injector.ActivityService.InsertActivity(activityInput)
 }

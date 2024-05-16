@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"log"
 	"svc-activity/config"
 	"svc-activity/internal/adapter/handler/consumer"
 	"svc-activity/internal/adapter/libraries/pubsub"
@@ -47,7 +47,7 @@ func consume() {
 	// setup config
 	getConfig, err := config.SetupConfig()
 	if err != nil {
-		log.Fatal(fmt.Sprintf("Failed to set up configuration err: %v", err.Error()))
+		logrus.Fatal(fmt.Sprintf("Failed to set up configuration err: %v", err.Error()))
 	}
 	kafkaConfig := getConfig.Kafka
 
