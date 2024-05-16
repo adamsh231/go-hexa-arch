@@ -47,6 +47,8 @@ func startHttp() {
 	// middlewares
 	e.Use(middleware.Recover())
 	e.Use(apmechov4.Middleware())
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORS())
 
 	// check health
 	e.GET("/", func(c echo.Context) error {

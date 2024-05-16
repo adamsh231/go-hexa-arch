@@ -12,6 +12,6 @@ func registerActivityRoute(e *echo.Echo, handler handlers.Handler){
 
 	// routes
 	activityGroup.GET("", handler.GetListActivities)
-	activityGroup.GET(":id", handler.GetDetailActivity)
+	activityGroup.GET("/:id", handler.GetDetailActivity)
 
 }
