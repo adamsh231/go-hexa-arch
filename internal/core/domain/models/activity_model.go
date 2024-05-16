@@ -4,7 +4,7 @@ import "time"
 
 const ActivityCollection = "log-activity"
 
-type InsertActivityModel struct {
+type ActivityModel struct {
 	Service   string
 	Version   string
 	Message   string

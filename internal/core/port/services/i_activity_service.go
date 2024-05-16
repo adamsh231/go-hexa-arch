@@ -5,5 +5,7 @@ import (
 )
 
 type IActivityService interface {
-	InsertActivity(input entities.InsertActivityInput)
+	SearchActivities(input entities.SearchActivityInput) (output []entities.SearchActivityOutput, err error)
+	FindActivityByID(id string) (output entities.FindActivityOutput, err error)
+	InsertActivity(input entities.InsertActivityInput) (err error)
 }

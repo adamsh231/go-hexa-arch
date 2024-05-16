@@ -20,6 +20,7 @@ require (
 	github.com/elastic/go-windows v1.0.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/snappy v0.0.1 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect

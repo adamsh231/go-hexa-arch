@@ -1,23 +1,24 @@
 package utils
 
 import (
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	"go.elastic.co/apm/v2"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
-func LogrusWithPayload(payload string) *logrus.Entry {
-	return logrus.WithField("payload", payload)
+type LogUtil struct {
+	id string
 }
 
-func APMStartTransaction(name string) *apm.Transaction{
-	return apm.DefaultTracer().StartTransaction(name, "request")
+func NewLogUtil() LogUtil {
+	return LogUtil{id: uuid.NewString()}
 }
 
-func WaitTerminateSignal(){
-	termSignal := make(chan os.Signal, 1)
-	signal.Notify(termSignal, syscall.SIGINT, syscall.SIGTERM)
-	<-termSignal
+// LogrusWithPayload use this if you want to track every log with uuid
+func (util LogUtil) LogrusWithPayload(payload string) *logrus.Entry {
+	return logrus.WithField("payload", payload).WithField("id", util.id)
+}
+
+// Logrus use this if you want to track every log with uuid
+func (util LogUtil) Logrus(payload string) *logrus.Entry {
+	return logrus.WithField("id", util.id)
 }

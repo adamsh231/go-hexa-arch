@@ -2,7 +2,6 @@ package services
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"svc-activity/internal/core/domain/entities"
 	"svc-activity/internal/core/domain/models"
 	"svc-activity/internal/core/port/repositories"
@@ -19,15 +18,16 @@ func NewActivityService(repo repositories.IActivityRepository) services.IActivit
 	return activityService{repo: repo}
 }
 
-func (service activityService) InsertActivity(input entities.InsertActivityInput) {
+func (service activityService) InsertActivity(input entities.InsertActivityInput) (err error) {
 
 	// logging
 	payload, _ := json.Marshal(input)
-	utils.LogrusWithPayload(string(payload)).Info("processing insert activity")
+	log := utils.NewLogUtil().LogrusWithPayload(string(payload))
+	log.Info("processing insert activity")
 
 	// construct
 	now := time.Now()
-	activityModel := models.InsertActivityModel{
+	activityModel := models.ActivityModel{
 		Service:   input.Service,
 		Version:   input.Version,
 		Message:   input.Message,
@@ -37,11 +37,76 @@ func (service activityService) InsertActivity(input entities.InsertActivityInput
 		Response:  input.Response,
 		Created:   now,
 	}
-	if err := service.repo.InsertActivity(activityModel); err != nil {
-		utils.LogrusWithPayload(string(payload)).Error(err)
-		return
+	if err = service.repo.InsertActivity(activityModel); err != nil {
+		log.Error(utils.PrintMessageWithError("error insert activity", err))
+		return err
 	}
 
 	// logging
-	logrus.WithField("payload", string(payload)).Info("processing insert activity, done!")
+	log.Info("processing insert activity, done!")
+
+	return err
+}
+
+func (service activityService) SearchActivities(input entities.SearchActivityInput) (output []entities.SearchActivityOutput, err error) {
+
+	// logging
+	payload, _ := json.Marshal(input)
+	log := utils.NewLogUtil().LogrusWithPayload(string(payload))
+	log.Info("processing search activity")
+
+	// repo
+	activities, err := service.repo.SearchActivities(input.Service, input.Created, int64(input.Page), int64(input.Limit))
+	if err != nil {
+		log.Error(utils.PrintMessageWithError("error while search into db", err))
+		return output, err
+	}
+
+	// construct
+	for _, activity := range activities {
+		output = append(output, entities.SearchActivityOutput{
+			Service:   activity.Service,
+			Version:   activity.Version,
+			Message:   activity.Message,
+			Activity:  activity.Activity,
+			CreatedBy: activity.CreatedBy,
+			Created:   activity.Created.Format(time.DateTime),
+		})
+	}
+
+	// logging
+	log.Info("processing search activity, done!")
+
+	return output, err
+}
+
+func (service activityService) FindActivityByID(id string) (output entities.FindActivityOutput, err error) {
+
+	// logging
+	log := utils.NewLogUtil().LogrusWithPayload(id)
+	log.Info("processing search activity")
+
+	// repo
+	activity, err := service.repo.FindActivity(id)
+	if err != nil {
+		log.Error(utils.PrintMessageWithError("error while search into db", err))
+		return output, err
+	}
+
+	// construct
+	output = entities.FindActivityOutput{
+		Service:   activity.Service,
+		Version:   activity.Version,
+		Message:   activity.Message,
+		Activity:  activity.Activity,
+		CreatedBy: activity.CreatedBy,
+		Data:      activity.Data,
+		Response:  activity.Response,
+		Created:   activity.Created.Format(time.DateTime),
+	}
+
+	// logging
+	log.Info("processing search activity, done!")
+
+	return output, err
 }

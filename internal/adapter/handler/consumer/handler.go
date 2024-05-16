@@ -24,9 +24,9 @@ func (handler Handler) ReceiveAndInsertActivity(message []byte) {
 	// destruct
 	var activityInput entities.InsertActivityInput
 	if err := json.Unmarshal(message, &activityInput); err != nil {
-		utils.LogrusWithPayload(string(message)).Error(err)
+		utils.NewLogUtil().LogrusWithPayload(string(message)).Error(err)
 	}
 
 	// handling
-	handler.injector.ActivityService.InsertActivity(activityInput)
+	_ = handler.injector.ActivityService.InsertActivity(activityInput)
 }
