@@ -17,6 +17,10 @@ func NewHandler(injector config.ServiceInjector) Handler {
 
 func (handler Handler) ReceiveAndInsertActivity(message []byte) {
 
+	// apm
+	apmTx := utils.APMStartTransaction("ReceiveAndInsertActivity")
+	defer apmTx.End()
+
 	// destruct
 	var activityInput entities.InsertActivityInput
 	if err := json.Unmarshal(message, &activityInput); err != nil {

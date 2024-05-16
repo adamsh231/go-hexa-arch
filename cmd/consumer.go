@@ -55,7 +55,6 @@ func consume() {
 	inject := config.InitInjection(getConfig)
 	handler := consumer.NewHandler(inject)
 
-
 	// register topicHandlers - topic and handler added here and would be automatically consume
 	topicHandlers := []topicHandler{
 		{
@@ -74,7 +73,6 @@ func consume() {
 
 	// close config
 	getConfig.CloseConfig()
-
 }
 
 func dispatchWorker(wg *sync.WaitGroup, workerCount int, job func(wg *sync.WaitGroup, handler func(message []byte)), handler func(message []byte)) {
