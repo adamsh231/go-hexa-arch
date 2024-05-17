@@ -56,7 +56,7 @@ func consume() {
 	inject := config.InitInjection(getConfig)
 	handler := consumer.NewHandler(inject)
 
-	// register topicHandlers - topic and handler added here and would be automatically consume
+	// register topicHandlers - topic and handler added here and would be automatically has independent consumer
 	topicHandlers := []topicHandler{
 		{
 			Topic:   kafkaConfig.Topic.Activity,
