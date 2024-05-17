@@ -32,25 +32,25 @@ Go to Folder named **cmd**
 ## Folder Structure
 This repository is using hexagonal architecture pattern, hexagonal architecture has an **flexibility** to adapt a new port or even changing port with minimum changes
 
-- **cmd**: List of registered commands or entrypoints
-- **config**: List of configurations and dependencies
-- **utils**: List of **GLOBAL** helpers function
-- **docs**: Stored documentations (add more docs in markdown format if necessary) and swagger
-- **internal**: Source folder
-    - **adapter**: List of external stacks of application (databases, cache, brokers, etc)
-        - **handler**
-        - **libraries**
-        - **repository**
-    - **core**: List of business logic here
-        - **domain**: List of struct input and output for port
-            - **presenters**: Request and response from handler
-            - **entities**: Input and output from service
-            - **models**: Input and output from repository
-        - **port**: These are list of adapter interfaces to obey for interacting between services and adapter and for **Unit Test** mock purposes
-            - **handler**
-            - **libraries**
-            - **repository**
-        - **services**: These are list of business logic
+- **`cmd`**: List of registered commands or entrypoints
+- **`config`**: List of configurations and dependencies
+- **`utils`**: List of **GLOBAL** helpers function
+- **`docs`**: Stored documentations (add more docs in markdown format if necessary) and swagger
+- **`internal`**: Source folder
+    - **`adapter`**: List of external stacks of application (databases, cache, brokers, etc)
+        - **`handler`**
+        - **`libraries`**
+        - **`repository`**
+    - **`core`**: List of business logic here
+        - **`domain`**: List of struct input and output for port
+            - **`presenters`**: Request and response from handler
+            - **`entities`**: Input and output from service
+            - **`models`**: Input and output from repository
+        - **`port`**: These are list of adapter interfaces to obey for interacting between services and adapter and for **Unit Test** mock purposes
+            - **`handler`**
+            - **`libraries`**
+            - **`repository`**
+        - **`services`**: These are list of business logic
 
 
 ## Structure Preview
@@ -84,6 +84,7 @@ This repository is using swagger for http documentation
 > Install first swag command on go swag
 
 How to add new documentation on handler
+
 1. Add new declarative comment on handler
 2. on root folder run this `swag init -g cmd/http.go`
 3. Format comments `swag fm`
