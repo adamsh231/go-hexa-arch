@@ -31,6 +31,7 @@ Go to Folder named **cmd**
 
 ## Folder Structure
 This repository is using hexagonal architecture pattern, hexagonal architecture has an **flexibility** to adapt a new port or even changing port with minimum changes
+
 - **cmd**: List of registered commands or entrypoints
 - **config**: List of configurations and dependencies
 - **utils**: List of **GLOBAL** helpers function
