@@ -31,25 +31,26 @@ Go to Folder named **cmd**
 
 ## Folder Structure
 This repository is using hexagonal architecture pattern, hexagonal architecture has an **flexibility** to adapt a new port or even changing port with minimum changes
-- `cmd`  list of registered commands or entrypoints
-- `config`  list of configurations and dependencies
-- `utils` list of **GLOBAL** helpers function
-- `docs` stored documentations (add more docs in markdown format if necessary) and swagger
-- `internal` source folder
-    - `adapter` list of external stacks of application (databases, cache, brokers, etc)
-        - `handler`
-        - `libraries`
-        - `repository`
-    - `core` list of business logic here
-        - `domain` list of struct input and output for port
-            - `presenters` request and response from handler
-            - `entities` input and output from service
-            - `models` input and output from repository
-        - `port` these are list of adapter interfaces to obey for interacting between services and adapter and for **Unit Test** mock purposes
-            - `handler`
-            - `libraries`
-            - `repository`
-        - `services` these are list of business logic
+- **cmd**: List of registered commands or entrypoints
+- **config**: List of configurations and dependencies
+- **utils**: List of **GLOBAL** helpers function
+- **docs**: Stored documentations (add more docs in markdown format if necessary) and swagger
+- **internal**: Source folder
+    - **adapter**: List of external stacks of application (databases, cache, brokers, etc)
+        - **handler**
+        - **libraries**
+        - **repository**
+    - **core**: List of business logic here
+        - **domain**: List of struct input and output for port
+            - **presenters**: Request and response from handler
+            - **entities**: Input and output from service
+            - **models**: Input and output from repository
+        - **port**: These are list of adapter interfaces to obey for interacting between services and adapter and for **Unit Test** mock purposes
+            - **handler**
+            - **libraries**
+            - **repository**
+        - **services**: These are list of business logic
+
 
 ## Structure Preview
 This preview is **ONLY**  example, between `adapter` and `core` required port for flexibility:
