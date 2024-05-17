@@ -75,11 +75,11 @@ F1[Library] --> F3[RabbitMQ]
 
 ## Swagger
 
-This repository is using swagger for http documentation
-|No|Link|
-|--|--|
-| echo swagger | https://github.com/swaggo/echo-swagger/tree/master |
-| go swag |.https://github.com/swaggo/swag#declarative-comments-format |
+This repository is using swagger for http documentation:
+
+echo-swagger https://github.com/swaggo/echo-swagger/tree/master
+
+go-swag https://github.com/swaggo/swag#declarative-comments-format 
 
 > Install first swag command on go swag
 
