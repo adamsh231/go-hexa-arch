@@ -58,7 +58,7 @@ func startHttp() {
 	// setup config
 	getConfig, err := config.SetupConfig()
 	if err != nil {
-		logrus.Fatal(fmt.Sprintf("failed to set up configuration err: %v", err.Error()))
+		logrus.Fatal(utils.PrintMessageWithError("failed to set up configuration", err))
 	}
 
 	// init injector
@@ -71,7 +71,7 @@ func startHttp() {
 	// start http
 	go func() {
 		if err := e.Start(fmt.Sprintf(":%s", getConfig.App.Port)); err != http.ErrServerClosed {
-			logrus.Fatal(fmt.Sprintf("failed to set up http server err: %v", err.Error()))
+			logrus.Fatal(utils.PrintMessageWithError("failed to set up http server", err))
 		}
 	}()
 

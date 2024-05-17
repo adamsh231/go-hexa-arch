@@ -7,6 +7,7 @@ import (
 	"svc-activity/config"
 	"svc-activity/internal/adapter/handler/consumer"
 	"svc-activity/internal/adapter/libraries/pubsub"
+	"svc-activity/utils"
 	"sync"
 )
 
@@ -47,7 +48,7 @@ func consume() {
 	// setup config
 	getConfig, err := config.SetupConfig()
 	if err != nil {
-		logrus.Fatal(fmt.Sprintf("failed to set up configuration err: %v", err.Error()))
+		logrus.Fatal(utils.PrintMessageWithError("failed to set up configuration", err))
 	}
 	kafkaConfig := getConfig.Kafka
 
