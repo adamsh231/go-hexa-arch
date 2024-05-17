@@ -7,6 +7,6 @@ import (
 
 type IActivityRepository interface {
 	InsertActivity(model models.ActivityModel) error
-	SearchActivities(service string, created time.Time, page, limit int64) (output []models.ActivityModel, err error)
+	SearchActivities(service string, created time.Time, page, limit int64) (total int64, output []models.ActivityModel, err error)
 	FindActivity(id string) (output models.ActivityModel, err error)
 }

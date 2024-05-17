@@ -31,7 +31,7 @@ func (repo activityRepository) InsertActivity(model models.ActivityModel) (err e
 	return err
 }
 
-func (repo activityRepository) SearchActivities(service string, created time.Time, page, limit int64) (output []models.ActivityModel, err error) {
+func (repo activityRepository) SearchActivities(service string, created time.Time, page, limit int64) (total int64, output []models.ActivityModel, err error) {
 
 	// filter
 	filter := bson.M{
@@ -53,16 +53,22 @@ func (repo activityRepository) SearchActivities(service string, created time.Tim
 		Skip:  &offset,
 	})
 	if err != nil {
-		return output, err
+		return total, output, err
 	}
 	defer cursor.Close(context.Background())
 
-	// cursors
-	if err := cursor.All(context.Background(), &output); err != nil {
-		return output, err
+	// get total
+	total, err = repo.getCollection().CountDocuments(context.Background(), filter)
+	if err != nil {
+		return total, output, err
 	}
 
-	return output, err
+	// cursors
+	if err := cursor.All(context.Background(), &output); err != nil {
+		return total, output, err
+	}
+
+	return total, output, err
 }
 
 func (repo activityRepository) FindActivity(id string) (output models.ActivityModel, err error) {

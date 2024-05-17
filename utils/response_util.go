@@ -16,14 +16,28 @@ type ResponseStatusUtil struct {
 	Errors  []string `json:"errors,omitempty"`
 }
 
-func CreateMetaPagination() map[string]interface{} {
+func CreateMetaPagination(page, limit, total int) map[string]interface{} {
+
+	// last page
+	lastPage := (total + limit - 1) / limit
+	if page > lastPage {
+		page = lastPage
+	}
+
+	// from and to
+	from := (page - 1) * limit + 1
+	to := from + limit - 1
+	if to > total {
+		to = total
+	}
+
 	return map[string]interface{}{
-		"current_page": 1,
-		"per_page":     2,
-		"from":         3,
-		"to":           4,
-		"total":        5,
-		"last_page":    6,
+		"current_page": page,
+		"per_page":     limit,
+		"from":         from,
+		"to":           to,
+		"total":        total,
+		"last_page":    lastPage,
 	}
 }
 

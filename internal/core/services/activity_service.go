@@ -48,7 +48,7 @@ func (service activityService) InsertActivity(input entities.InsertActivityInput
 	return err
 }
 
-func (service activityService) SearchActivities(input entities.SearchActivityInput) (output []entities.SearchActivityOutput, err error) {
+func (service activityService) SearchActivities(input entities.SearchActivityInput) (total int, output []entities.SearchActivityOutput, err error) {
 
 	// logging
 	payload, _ := json.Marshal(input)
@@ -56,10 +56,10 @@ func (service activityService) SearchActivities(input entities.SearchActivityInp
 	log.Info("processing search activity")
 
 	// repo
-	activities, err := service.repo.SearchActivities(input.Service, input.Created, int64(input.Page), int64(input.Limit))
+	totalActivities, activities, err := service.repo.SearchActivities(input.Service, input.Created, int64(input.Page), int64(input.Limit))
 	if err != nil {
 		log.Error(utils.PrintMessageWithError("error while search into db", err))
-		return output, err
+		return total, output, err
 	}
 
 	// construct
@@ -79,7 +79,7 @@ func (service activityService) SearchActivities(input entities.SearchActivityInp
 	// logging
 	log.Info("processing search activity, done!")
 
-	return output, err
+	return int(totalActivities), output, err
 }
 
 func (service activityService) FindActivityByID(id string) (output entities.FindActivityOutput, err error) {

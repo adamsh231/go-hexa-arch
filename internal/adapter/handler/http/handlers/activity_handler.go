@@ -45,12 +45,13 @@ func (handler Handler) GetListActivities(c echo.Context) error {
 	}
 
 	// service
-	activity, err := handler.injector.ActivityService.SearchActivities(input)
+	totalActivities, activities, err := handler.injector.ActivityService.SearchActivities(input)
 	if err != nil{
 		return utils.ResponseError(c, http.StatusInternalServerError, err.Error())
 	}
+	meta := utils.CreateMetaPagination(page, limit, totalActivities)
 
-	return utils.ResponseSuccessDataWithMeta(c, http.StatusOK, activity, "", "")
+	return utils.ResponseSuccessDataWithMeta(c, http.StatusOK, activities, meta, "")
 }
 
 func (handler Handler) GetDetailActivity(c echo.Context) error {
