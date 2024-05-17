@@ -94,6 +94,12 @@ How to add new documentation on handler
 
 ## Testing
 
+`services` and `utils` required unit test, any other files outside those folders
+would be great
+
 ```
 go test ./... -v
 ```
+
+## Integrate Testing 
+Next catch up
