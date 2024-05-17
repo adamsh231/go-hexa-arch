@@ -1,7 +1,17 @@
 services:
-  app:
+
+  consumer:
+    container_name: "activity-consumer"
     build:
       context: .
     command: ["./main", "consumer"]
+    volumes:
+      - .env:/app/.env
+      -
+  http:
+    container_name: "activity-http"
+    build:
+      context: .
+    command: [ "./main", "http" ]
     volumes:
       - .env:/app/.env
