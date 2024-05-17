@@ -1,0 +1,170 @@
+basePath: /
+definitions:
+  entities.FindActivityOutput:
+    properties:
+      activity:
+        type: string
+      created:
+        type: string
+      created_by:
+        type: string
+      data:
+        additionalProperties: true
+        type: object
+      id:
+        type: string
+      message:
+        type: string
+      response:
+        additionalProperties: true
+        type: object
+      service:
+        type: string
+      version:
+        type: string
+    type: object
+  entities.SearchActivityOutput:
+    properties:
+      activity:
+        type: string
+      created:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      message:
+        type: string
+      service:
+        type: string
+      version:
+        type: string
+    type: object
+  utils.ResponseMetaUtil:
+    properties:
+      current_page:
+        type: integer
+      from:
+        type: integer
+      last_page:
+        type: integer
+      per_page:
+        type: integer
+      to:
+        type: integer
+      total:
+        type: integer
+    type: object
+  utils.ResponseStatusUtil:
+    properties:
+      code:
+        type: string
+      errors:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+    type: object
+  utils.ResponseUtil:
+    properties:
+      data: {}
+      meta: {}
+      status:
+        $ref: '#/definitions/utils.ResponseStatusUtil'
+    type: object
+host: /svc-activity
+info:
+  contact:
+    email: adam@majoo.id
+    name: Adam Syarif Hidayatullah
+  description: Majoo Logging Activity
+  title: Majoo Logging Activity
+  version: "1.0"
+paths:
+  /v1/log:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: date
+        required: true
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: service
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseUtil'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entities.SearchActivityOutput'
+                  type: array
+                meta:
+                  $ref: '#/definitions/utils.ResponseMetaUtil'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ResponseStatusUtil'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.ResponseStatusUtil'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ResponseStatusUtil'
+      summary: Search log activities
+      tags:
+      - Logging
+  /v1/log/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseUtil'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.FindActivityOutput'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.ResponseStatusUtil'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ResponseStatusUtil'
+      summary: Search log activities
+      tags:
+      - Logging
+schemes:
+- http
+- https
+swagger: "2.0"

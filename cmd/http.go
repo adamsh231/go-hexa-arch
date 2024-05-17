@@ -6,12 +6,15 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"go.elastic.co/apm/module/apmechov4/v2"
 	"net/http"
 	"svc-activity/config"
 	api "svc-activity/internal/adapter/handler/http/handlers"
 	"svc-activity/internal/adapter/handler/http/routes"
 	"svc-activity/utils"
+
+	_ "svc-activity/docs"
 )
 
 var greetHTTP = `
@@ -39,6 +42,14 @@ func RegisterHTTP() *cobra.Command {
 	}
 }
 
+//	@Title			Majoo Logging Activity
+//	@Version		1.0
+//	@Description	Majoo Logging Activity
+//	@Contact.name	Adam Syarif Hidayatullah
+//	@Contact.email	adam@majoo.id
+//	@Host			/svc-activity
+//	@Schemes		http https
+//	@BasePath		/
 func startHttp() {
 
 	// init
@@ -51,6 +62,9 @@ func startHttp() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello from the other side!")
 	})
+
+	// swagger
+	e.GET("/docs/*", echoSwagger.WrapHandler)
 
 	// setup config
 	getConfig, err := config.SetupConfig()
@@ -79,7 +93,7 @@ func startHttp() {
 	getConfig.CloseConfig()
 }
 
-func registerGlobalMiddlewares (e *echo.Echo){
+func registerGlobalMiddlewares(e *echo.Echo) {
 	e.Use(middleware.Recover())
 	e.Use(apmechov4.Middleware())
 	e.Use(middleware.Logger())
