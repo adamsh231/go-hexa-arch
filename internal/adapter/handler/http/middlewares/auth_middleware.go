@@ -6,16 +6,6 @@ import (
 	"svc-activity/utils"
 )
 
-//func ApiKeyMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-//	return func(c echo.Context) error {
-//		authKey := c.Request().Header.Get("x-api-key")
-//		if authKey == "" {
-//			return utils.ResponseError(c, http.StatusUnauthorized, "Unauthorized")
-//		}
-//		return next(c)
-//	}
-//}
-
 func ApiKeyMiddleware(apiKey string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
