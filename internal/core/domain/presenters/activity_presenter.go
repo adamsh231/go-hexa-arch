@@ -2,7 +2,7 @@ package presenters
 
 type GetListActivitiesRequest struct {
 	Service string `query:"service"`
-	Created string `query:"created"`
+	Date    string `query:"date" validate:"required"`
 	Page    int    `query:"page"`
 	Limit   int    `query:"limit"`
 }

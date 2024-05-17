@@ -7,6 +7,7 @@ import (
 	"svc-activity/internal/core/domain/entities"
 	"svc-activity/internal/core/domain/presenters"
 	"svc-activity/utils"
+	"time"
 )
 
 type Handler struct {
@@ -25,12 +26,22 @@ func (handler Handler) GetListActivities(c echo.Context) error {
 		return utils.ResponseError(c, http.StatusBadRequest, err.Error())
 	}
 
+	// validation
+	if errs := utils.ValidateStruct(request); len(errs) > 0 {
+		return utils.ResponseListError(c, http.StatusBadRequest, "Validation Error", errs)
+	}
+	parseDate, err := time.Parse(time.DateOnly, request.Date)
+	if err != nil{
+		return utils.ResponseError(c, http.StatusUnprocessableEntity, err.Error())
+	}
+
 	// construct
+	page, limit := utils.ValidationPaginationDefault(request.Page, request.Limit)
 	input := entities.SearchActivityInput{
 		Service: request.Service,
-		Created: request.Created,
-		Page:    request.Page,
-		Limit:   request.Limit,
+		Created: parseDate,
+		Page:    page,
+		Limit:   limit,
 	}
 
 	// service
@@ -51,6 +62,11 @@ func (handler Handler) GetDetailActivity(c echo.Context) error {
 	activity, err := handler.injector.ActivityService.FindActivityByID(id)
 	if err != nil{
 		return utils.ResponseError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	// validate
+	if activity.ID == ""{
+		return utils.ResponseError(c, http.StatusNotFound, "data not found")
 	}
 
 	return utils.ResponseSuccessData(c, http.StatusOK, activity, "")

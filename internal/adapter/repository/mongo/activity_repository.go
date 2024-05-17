@@ -3,6 +3,7 @@ package mongo
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"svc-activity/internal/core/domain/models"
@@ -30,18 +31,18 @@ func (repo activityRepository) InsertActivity(model models.ActivityModel) (err e
 	return err
 }
 
-func (repo activityRepository) SearchActivities(service, created string, page, limit int64) (output []models.ActivityModel, err error) {
+func (repo activityRepository) SearchActivities(service string, created time.Time, page, limit int64) (output []models.ActivityModel, err error) {
 
 	// filter
 	filter := bson.M{
 		"created": bson.M{
-			"$gte": time.Now().Add(-1 * 24 * time.Hour),
-			"$lte": time.Now().Add(24 * time.Hour),
+			"$gte": created,
+			"$lte": created.Add(24 * time.Hour),
 		},
 	}
 
 	// filter service
-	if service != ""{
+	if service != "" {
 		filter["service"] = service
 	}
 
@@ -67,12 +68,15 @@ func (repo activityRepository) SearchActivities(service, created string, page, l
 func (repo activityRepository) FindActivity(id string) (output models.ActivityModel, err error) {
 
 	// filter
+	idPrimitive, _ := primitive.ObjectIDFromHex(id)
 	filter := bson.M{
-		"id": id,
+		"_id": idPrimitive,
 	}
 
 	// Construct your query
-	if err = repo.getCollection().FindOne(context.Background(), filter).Decode(&output); err != nil {
+	if err = repo.getCollection().FindOne(context.Background(), filter).Decode(&output); err == mongo.ErrNoDocuments {
+		return output, nil
+	} else if err != nil {
 		return output, err
 	}
 

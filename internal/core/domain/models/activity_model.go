@@ -5,6 +5,7 @@ import "time"
 const ActivityCollection = "log-activity"
 
 type ActivityModel struct {
+	ID        string `bson:"_id"`
 	Service   string
 	Version   string
 	Message   string

@@ -63,8 +63,10 @@ func (service activityService) SearchActivities(input entities.SearchActivityInp
 	}
 
 	// construct
+	output = make([]entities.SearchActivityOutput, 0) // make it default 0 instead of null
 	for _, activity := range activities {
 		output = append(output, entities.SearchActivityOutput{
+			ID:        activity.ID,
 			Service:   activity.Service,
 			Version:   activity.Version,
 			Message:   activity.Message,
@@ -95,6 +97,7 @@ func (service activityService) FindActivityByID(id string) (output entities.Find
 
 	// construct
 	output = entities.FindActivityOutput{
+		ID:        activity.ID,
 		Service:   activity.Service,
 		Version:   activity.Version,
 		Message:   activity.Message,
