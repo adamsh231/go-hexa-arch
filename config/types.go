@@ -8,6 +8,10 @@ type AppConfig struct {
 	Port string
 }
 
+type ApiKeyConfig struct {
+	General string
+}
+
 type KafkaConfig struct {
 	BootstrapServers string
 	GroupID          string

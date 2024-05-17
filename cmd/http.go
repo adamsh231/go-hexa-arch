@@ -45,10 +45,7 @@ func startHttp() {
 	e := echo.New()
 
 	// middlewares
-	e.Use(middleware.Recover())
-	e.Use(apmechov4.Middleware())
-	e.Use(middleware.Logger())
-	e.Use(middleware.CORS())
+	registerGlobalMiddlewares(e)
 
 	// check health
 	e.GET("/", func(c echo.Context) error {
@@ -66,7 +63,7 @@ func startHttp() {
 	handler := api.NewHandler(inject)
 
 	// register route
-	routes.RegisterRoute(e, handler)
+	routes.RegisterRoute(e, handler, getConfig.ApiKey)
 
 	// start http
 	go func() {
@@ -80,4 +77,11 @@ func startHttp() {
 
 	// close config
 	getConfig.CloseConfig()
+}
+
+func registerGlobalMiddlewares (e *echo.Echo){
+	e.Use(middleware.Recover())
+	e.Use(apmechov4.Middleware())
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORS())
 }

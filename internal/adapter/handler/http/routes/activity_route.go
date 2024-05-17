@@ -5,7 +5,7 @@ import (
 	"svc-activity/internal/adapter/handler/http/handlers"
 )
 
-func registerActivityRoute(e *echo.Echo, handler handlers.Handler){
+func registerActivityRoute(e *echo.Group, handler handlers.Handler){
 
 	// group
 	activityGroup := e.Group("/log")

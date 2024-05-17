@@ -11,9 +11,10 @@ import (
 )
 
 type Config struct {
-	App   AppConfig
-	Kafka KafkaConfig
-	Mongo MongoConfig
+	App    AppConfig
+	ApiKey ApiKeyConfig
+	Kafka  KafkaConfig
+	Mongo  MongoConfig
 }
 
 func SetupConfig() (config Config, err error) {
@@ -28,6 +29,9 @@ func SetupConfig() (config Config, err error) {
 
 	// App
 	config.App.Port = os.Getenv("APP_PORT")
+
+	// Api key
+	config.ApiKey.General = os.Getenv("API_KEY_GENERAL")
 
 	// Kafka
 	config.Kafka.BootstrapServers = os.Getenv("KAFKA_BOOTSTRAP_SERVERS")
