@@ -91,3 +91,9 @@ How to add new documentation on handler
 4. Those commands will update file on `docs/docs.go` `docs/swagger.json` `docs/swagger.yaml`
 5. Run http application `go run main.go http`
 6. Go to `base-url/docs/`, now see the update
+
+## Testing
+
+```
+go test ./... -v
+```
