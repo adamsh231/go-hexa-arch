@@ -2,13 +2,14 @@ package mongo
 
 import (
 	"context"
+	"go-hexa/internal/core/domain/models"
+	"go-hexa/internal/core/port/repositories"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"svc-activity/internal/core/domain/models"
-	"svc-activity/internal/core/port/repositories"
-	"time"
 )
 
 type activityRepository struct {

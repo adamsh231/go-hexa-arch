@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"go-hexa/config"
+	api "go-hexa/internal/adapter/handler/http/handlers"
+	"go-hexa/internal/adapter/handler/http/routes"
+	"go-hexa/utils"
 	"net/http"
-	"svc-activity/config"
-	api "svc-activity/internal/adapter/handler/http/handlers"
-	"svc-activity/internal/adapter/handler/http/routes"
-	"svc-activity/utils"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -15,7 +15,7 @@ import (
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"go.elastic.co/apm/module/apmechov4/v2"
 
-	_ "svc-activity/docs"
+	_ "go-hexa/docs"
 )
 
 var greetHTTP = `
@@ -48,7 +48,7 @@ func RegisterHTTP() *cobra.Command {
 // @Description		Golang hexagonal swagger documentation
 // @Contact.name	Adam Syarif Hidayatullah
 // @Contact.email	adam@majoo.id
-// @Host			/svc-activity
+// @Host			/go-hexa
 // @Schemes			http https
 // @BasePath		/
 func startHttp() {

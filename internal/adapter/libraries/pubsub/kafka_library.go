@@ -3,13 +3,14 @@ package pubsub
 import (
 	"context"
 	"fmt"
-	segmentioKafka "github.com/segmentio/kafka-go"
-	"github.com/sirupsen/logrus"
+	"go-hexa/internal/core/port/libraries"
+	"go-hexa/utils"
 	"strings"
-	"svc-activity/internal/core/port/libraries"
-	"svc-activity/utils"
 	"sync"
 	"time"
+
+	segmentioKafka "github.com/segmentio/kafka-go"
+	"github.com/sirupsen/logrus"
 )
 
 type kafkaLibrary struct {
@@ -59,7 +60,7 @@ func startConsumer(reader *segmentioKafka.Reader, handler func(message []byte)) 
 		if err != nil {
 			logrus.Error(fmt.Sprintf("consume error on topic %s", msg.Topic), err)
 			time.Sleep(time.Second) // prevent massive error when error occurred
-		}else{
+		} else {
 			logrus.Info(fmt.Sprintf("message received at topic %s offset %d key %s partition %d", msg.Topic, msg.Offset, string(msg.Key), msg.Partition))
 			handler(msg.Value)
 		}

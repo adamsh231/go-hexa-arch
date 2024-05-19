@@ -1,9 +1,10 @@
 package main
 
 import (
+	"go-hexa/cmd"
+	"go-hexa/utils"
+
 	"github.com/sirupsen/logrus"
-	"svc-activity/cmd"
-	"svc-activity/utils"
 )
 
 func main() {

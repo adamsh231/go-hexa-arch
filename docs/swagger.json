@@ -13,7 +13,7 @@
         },
         "version": "1.0"
     },
-    "host": "/svc-activity",
+    "host": "/go-hexa",
     "basePath": "/",
     "paths": {
         "/v1/log": {

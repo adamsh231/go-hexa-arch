@@ -1,11 +1,12 @@
 package routes
 
 import (
+	"go-hexa/internal/adapter/handler/http/handlers"
+
 	"github.com/labstack/echo/v4"
-	"svc-activity/internal/adapter/handler/http/handlers"
 )
 
-func registerActivityRoute(e *echo.Group, handler handlers.Handler){
+func registerActivityRoute(e *echo.Group, handler handlers.Handler) {
 
 	// group
 	activityGroup := e.Group("/log")

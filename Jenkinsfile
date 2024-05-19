@@ -4,9 +4,9 @@ pipeline {
         credentialId = 'aliregistry'
         url = 'https://registry-intl.ap-southeast-5.aliyuncs.com'
         scannerHome = tool 'Sonarqube'
-        serviceDefault = 'svc-activity'
-        serviceHttp = 'svc-activity-http'
-        serviceConsumer = 'svc-activity-consumer'
+        serviceDefault = 'go-hexa'
+        serviceHttp = 'go-hexa-http'
+        serviceConsumer = 'go-hexa-consumer'
         GO111MODULE = 'on'
     }
 

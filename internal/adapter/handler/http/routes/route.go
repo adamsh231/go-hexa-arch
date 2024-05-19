@@ -1,10 +1,11 @@
 package routes
 
 import (
+	"go-hexa/config"
+	"go-hexa/internal/adapter/handler/http/handlers"
+	"go-hexa/internal/adapter/handler/http/middlewares"
+
 	"github.com/labstack/echo/v4"
-	"svc-activity/config"
-	"svc-activity/internal/adapter/handler/http/handlers"
-	"svc-activity/internal/adapter/handler/http/middlewares"
 )
 
 // RegisterRoute All subgroup route must be registered here

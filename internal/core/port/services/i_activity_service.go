@@ -1,7 +1,7 @@
 package services
 
 import (
-	"svc-activity/internal/core/domain/entities"
+	"go-hexa/internal/core/domain/entities"
 )
 
 type IActivityService interface {

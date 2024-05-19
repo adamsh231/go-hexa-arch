@@ -1,13 +1,14 @@
 package services
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"svc-activity/internal/core/domain/entities"
-	"svc-activity/internal/core/domain/models"
-	"svc-activity/internal/core/port/repositories"
+	"go-hexa/internal/core/domain/entities"
+	"go-hexa/internal/core/domain/models"
+	"go-hexa/internal/core/port/repositories"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestInsertActivity(t *testing.T) {

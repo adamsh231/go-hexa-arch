@@ -2,9 +2,9 @@ package consumer
 
 import (
 	"encoding/json"
-	"svc-activity/config"
-	"svc-activity/internal/core/domain/entities"
-	"svc-activity/utils"
+	"go-hexa/config"
+	"go-hexa/internal/core/domain/entities"
+	"go-hexa/utils"
 )
 
 type Handler struct {

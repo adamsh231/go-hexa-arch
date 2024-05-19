@@ -1,4 +1,4 @@
-module svc-activity
+module go-hexa
 
 go 1.20
 

@@ -1,9 +1,10 @@
 package middlewares
 
 import (
-	"github.com/labstack/echo/v4"
+	"go-hexa/utils"
 	"net/http"
-	"svc-activity/utils"
+
+	"github.com/labstack/echo/v4"
 )
 
 func ApiKeyMiddleware(apiKey string) echo.MiddlewareFunc {

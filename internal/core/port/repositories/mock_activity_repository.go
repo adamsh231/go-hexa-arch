@@ -1,9 +1,10 @@
 package repositories
 
 import (
-	"github.com/stretchr/testify/mock"
-	"svc-activity/internal/core/domain/models"
+	"go-hexa/internal/core/domain/models"
 	"time"
+
+	"github.com/stretchr/testify/mock"
 )
 
 type MockActivityRepository struct {

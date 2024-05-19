@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"svc-activity/config"
-	"svc-activity/internal/adapter/handler/consumer"
-	"svc-activity/internal/adapter/libraries/pubsub"
-	"svc-activity/utils"
+	"go-hexa/config"
+	"go-hexa/internal/adapter/handler/consumer"
+	"go-hexa/internal/adapter/libraries/pubsub"
+	"go-hexa/utils"
 	"sync"
 
 	"github.com/sirupsen/logrus"

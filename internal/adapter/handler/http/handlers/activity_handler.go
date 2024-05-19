@@ -1,13 +1,14 @@
 package handlers
 
 import (
-	"github.com/labstack/echo/v4"
+	"go-hexa/config"
+	"go-hexa/internal/core/domain/entities"
+	"go-hexa/internal/core/domain/presenters"
+	"go-hexa/utils"
 	"net/http"
-	"svc-activity/config"
-	"svc-activity/internal/core/domain/entities"
-	"svc-activity/internal/core/domain/presenters"
-	"svc-activity/utils"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {

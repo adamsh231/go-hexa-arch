@@ -2,11 +2,11 @@ package services
 
 import (
 	"encoding/json"
-	"svc-activity/internal/core/domain/entities"
-	"svc-activity/internal/core/domain/models"
-	"svc-activity/internal/core/port/repositories"
-	"svc-activity/internal/core/port/services"
-	"svc-activity/utils"
+	"go-hexa/internal/core/domain/entities"
+	"go-hexa/internal/core/domain/models"
+	"go-hexa/internal/core/port/repositories"
+	"go-hexa/internal/core/port/services"
+	"go-hexa/utils"
 	"time"
 )
 

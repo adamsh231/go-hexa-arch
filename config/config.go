@@ -2,12 +2,13 @@ package config
 
 import (
 	"context"
-	"github.com/joho/godotenv"
-	"github.com/sirupsen/logrus"
+	"go-hexa/internal/adapter/libraries/database"
+	"go-hexa/utils"
 	"os"
 	"strconv"
-	"svc-activity/internal/adapter/libraries/database"
-	"svc-activity/utils"
+
+	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 )
 
 type Config struct {

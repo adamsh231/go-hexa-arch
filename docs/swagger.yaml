@@ -73,7 +73,7 @@ definitions:
       status:
         $ref: '#/definitions/utils.ResponseStatusUtil'
     type: object
-host: /svc-activity
+host: /go-hexa
 info:
   contact:
     email: adam@majoo.id

@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"svc-activity/internal/core/domain/models"
+	"go-hexa/internal/core/domain/models"
 	"time"
 )
 
