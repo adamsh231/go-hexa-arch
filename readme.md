@@ -84,6 +84,8 @@ go-swag https://github.com/swaggo/swag#declarative-comments-format
 
 > Install first swag command on go swag
 
+> https://github.com/swaggo/swag/issues/197
+
 How to add new documentation on handler
 
 1. Add new declarative comment on handler
