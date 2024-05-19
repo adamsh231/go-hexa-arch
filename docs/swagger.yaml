@@ -76,10 +76,10 @@ definitions:
 host: /go-hexa
 info:
   contact:
-    email: adam@majoo.id
+    email: adamsyarif219@gmail.com
     name: Adam Syarif Hidayatullah
-  description: Majoo Logging Activity
-  title: Majoo Logging Activity
+  description: Golang hexagonal swagger documentation
+  title: Golang Hexa Swagger
   version: "1.0"
 paths:
   /v1/log:

@@ -124,8 +124,8 @@ pipeline {
                 script {
                     echo 'Push docker image ke docker registry Ali Prod'
                     docker.withRegistry(url, credentialId) {
-                        sh 'docker tag ${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER} registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER}'
-                        sh 'docker push registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER}'
+                        sh 'docker tag ${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER} registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER}'
+                        sh 'docker push registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER}'
                         sh 'echo ini docker login tag push prod'
                     }
                 }
@@ -138,8 +138,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'kubectl --kubeconfig="../../kubeconfig-prod-premium-noncore.yaml" set image deployment ${serviceHttp} ${serviceHttp}=registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER} -n=non-core'
-                    sh 'kubectl --kubeconfig="../../kubeconfig-prod-premium-noncore.yaml" set image deployment ${serviceConsumer} ${serviceConsumer}=registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER} -n=non-core'
+                    sh 'kubectl --kubeconfig="../../kubeconfig-prod-premium-noncore.yaml" set image deployment ${serviceHttp} ${serviceHttp}=registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER} -n=non-core'
+                    sh 'kubectl --kubeconfig="../../kubeconfig-prod-premium-noncore.yaml" set image deployment ${serviceConsumer} ${serviceConsumer}=registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${TAG_NAME}-${BUILD_NUMBER} -n=non-core'
                     sh 'echo set image k8s prod'
                 }
             }
@@ -207,8 +207,8 @@ pipeline {
                 script {
                     echo 'Push docker image ke docker registry Ali Beta'
                     docker.withRegistry(url, credentialId) {
-                        sh 'docker tag ${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER} registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER}'
-                        sh 'docker push registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER}'
+                        sh 'docker tag ${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER} registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER}'
+                        sh 'docker push registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER}'
                         sh 'echo ini docker login tag push Beta'
                     }
                 }
@@ -221,8 +221,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'kubectl --kubeconfig="../../kubeconfig-beta-premium.yaml" set image deployment ${serviceHttp} ${serviceHttp}=registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER} -n=beta'
-                    sh 'kubectl --kubeconfig="../../kubeconfig-beta-premium.yaml" set image deployment ${serviceConsumer} ${serviceConsumer}=registry-intl.ap-southeast-5.aliyuncs.com/majoo/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER} -n=beta'
+                    sh 'kubectl --kubeconfig="../../kubeconfig-beta-premium.yaml" set image deployment ${serviceHttp} ${serviceHttp}=registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER} -n=beta'
+                    sh 'kubectl --kubeconfig="../../kubeconfig-beta-premium.yaml" set image deployment ${serviceConsumer} ${serviceConsumer}=registry-intl.ap-southeast-5.aliyuncs.com/adam/${serviceDefault}:${BRANCH_NAME}-${BUILD_NUMBER} -n=beta'
                     sh 'echo set image k8s Beta'
                 }
             }

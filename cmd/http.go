@@ -47,7 +47,7 @@ func RegisterHTTP() *cobra.Command {
 // @Version			1.0
 // @Description		Golang hexagonal swagger documentation
 // @Contact.name	Adam Syarif Hidayatullah
-// @Contact.email	adam@majoo.id
+// @Contact.email	adamsyarif219@gmail.com
 // @Host			/go-hexa
 // @Schemes			http https
 // @BasePath		/

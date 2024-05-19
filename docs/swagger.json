@@ -5,11 +5,11 @@
     ],
     "swagger": "2.0",
     "info": {
-        "description": "Majoo Logging Activity",
-        "title": "Majoo Logging Activity",
+        "description": "Golang hexagonal swagger documentation",
+        "title": "Golang Hexa Swagger",
         "contact": {
             "name": "Adam Syarif Hidayatullah",
-            "email": "adam@majoo.id"
+            "email": "adamsyarif219@gmail.com"
         },
         "version": "1.0"
     },

@@ -11,7 +11,7 @@ const docTemplate = `{
         "title": "{{.Title}}",
         "contact": {
             "name": "Adam Syarif Hidayatullah",
-            "email": "adam@majoo.id"
+            "email": "adamsyarif219@gmail.com"
         },
         "version": "{{.Version}}"
     },
@@ -275,8 +275,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "/go-hexa",
 	BasePath:         "/",
 	Schemes:          []string{"http", "https"},
-	Title:            "Majoo Logging Activity",
-	Description:      "Majoo Logging Activity",
+	Title:            "Golang Hexa Swagger",
+	Description:      "Golang hexagonal swagger documentation",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
