@@ -9,7 +9,7 @@ add more entypoints as you wish.
 ```  
 go run main.go consumer  
 ```  
-- List item
+- HTTP
 ```  
 go run main.go http  
 ```  
