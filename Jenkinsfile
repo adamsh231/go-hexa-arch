@@ -63,9 +63,9 @@ pipeline {
             steps {
                 script {
                     //   input message: "Deploy these changes?", submitter "admin"
-                    def userName = input message: 'Deploy these changes?', submitter: 'admin,ikromy,ariefaf', submitterParameter: 'admin,ikromy,ariefaf'
+                    def userName = input message: 'Deploy these changes?', submitter: 'admin,adam', submitterParameter: 'admin,adam'
                     echo "Accepted by ${userName}"
-                    if (!(['admin', 'ikromy', 'ariefaf'].contains(userName))) {
+                    if (!(['admin', 'adam'].contains(userName))) {
                         error('This user is not approved to deploy to PROD.')
                     }
                 }
