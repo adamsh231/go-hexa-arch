@@ -2,20 +2,21 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/healthcheck"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/pprof"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/swagger"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 	"go-hexa/config"
+	_ "go-hexa/docs"
 	api "go-hexa/internal/adapter/handler/http/handlers"
 	"go-hexa/internal/adapter/handler/http/routes"
 	"go-hexa/utils"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
-	echoSwagger "github.com/swaggo/echo-swagger"
-	"go.elastic.co/apm/module/apmechov4/v2"
-
-	_ "go-hexa/docs"
+	"go.elastic.co/apm/module/apmfiber/v2"
 )
 
 var greetHTTP = `
@@ -54,18 +55,18 @@ func RegisterHTTP() *cobra.Command {
 func startHttp() {
 
 	// init
-	e := echo.New()
+	e := fiber.New()
 
 	// middlewares
 	registerGlobalMiddlewares(e)
 
 	// check health
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from the other side!")
+	e.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello from the other side!")
 	})
 
 	// swagger
-	e.GET("/docs/*", echoSwagger.WrapHandler)
+	e.Get("/docs/*", swagger.HandlerDefault)
 
 	// setup config
 	getConfig, err := config.SetupConfig()
@@ -82,7 +83,7 @@ func startHttp() {
 
 	// start http
 	go func() {
-		if err := e.Start(fmt.Sprintf(":%s", getConfig.App.Port)); err != http.ErrServerClosed {
+		if err := e.Listen(fmt.Sprintf(":%s", getConfig.App.Port)); err != nil {
 			logrus.Fatal(utils.PrintMessageWithError("failed to set up http server", err))
 		}
 	}()
@@ -94,9 +95,15 @@ func startHttp() {
 	getConfig.CloseConfig()
 }
 
-func registerGlobalMiddlewares(e *echo.Echo) {
-	e.Use(middleware.Recover())
-	e.Use(apmechov4.Middleware())
-	e.Use(middleware.Logger())
-	e.Use(middleware.CORS())
+func registerGlobalMiddlewares(e *fiber.App) {
+	e.Use(recover.New())
+	e.Use(apmfiber.Middleware())
+	e.Use(logger.New())
+	e.Use(pprof.New())
+	e.Use(healthcheck.New())
+	e.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowMethods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+		AllowHeaders: "*",
+	}))
 }

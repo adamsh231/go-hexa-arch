@@ -1,14 +1,12 @@
 package handlers
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"go-hexa/config"
 	"go-hexa/internal/core/domain/entities"
 	"go-hexa/internal/core/domain/presenters"
 	"go-hexa/utils"
-	"net/http"
 	"time"
-
-	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
@@ -32,22 +30,22 @@ func NewHandler(injector config.ServiceInjector) Handler {
 //	@Failure					422		{object}	utils.ResponseStatusUtil
 //	@Failure					500		{object}	utils.ResponseStatusUtil
 //	@Router						/v1/log [GET]
-func (handler Handler) GetListActivities(c echo.Context) error {
+func (handler Handler) GetListActivities(c *fiber.Ctx) error {
 
 	// bind queries
 	var request presenters.GetListActivitiesRequest
-	err := c.Bind(&request)
+	err := c.QueryParser(&request)
 	if err != nil {
-		return utils.ResponseError(c, http.StatusBadRequest, err.Error())
+		return utils.ResponseError(c, fiber.StatusBadRequest, err.Error())
 	}
 
 	// validation
 	if errs := utils.ValidateStruct(request); len(errs) > 0 {
-		return utils.ResponseListError(c, http.StatusBadRequest, "validation Error", errs)
+		return utils.ResponseListError(c, fiber.StatusBadRequest, "validation Error", errs)
 	}
 	parseDate, err := time.Parse(time.DateOnly, request.Date)
 	if err != nil {
-		return utils.ResponseError(c, http.StatusUnprocessableEntity, err.Error())
+		return utils.ResponseError(c, fiber.StatusUnprocessableEntity, err.Error())
 	}
 
 	// construct
@@ -62,11 +60,11 @@ func (handler Handler) GetListActivities(c echo.Context) error {
 	// service
 	totalActivities, activities, err := handler.injector.ActivityService.SearchActivities(input)
 	if err != nil {
-		return utils.ResponseError(c, http.StatusInternalServerError, err.Error())
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
 	meta := utils.CreateMetaPagination(page, limit, totalActivities)
 
-	return utils.ResponseSuccessDataWithMeta(c, http.StatusOK, activities, meta, "")
+	return utils.ResponseSuccessDataWithMeta(c, fiber.StatusOK, activities, meta, "")
 }
 
 // GetDetailActivity
@@ -81,21 +79,21 @@ func (handler Handler) GetListActivities(c echo.Context) error {
 //	@Failure					404	{object}	utils.ResponseStatusUtil
 //	@Failure					500	{object}	utils.ResponseStatusUtil
 //	@Router						/v1/log/{id} [GET]
-func (handler Handler) GetDetailActivity(c echo.Context) error {
+func (handler Handler) GetDetailActivity(c *fiber.Ctx) error {
 
 	// param
-	id := c.Param("id")
+	id := c.Params("id")
 
 	// service
 	activity, err := handler.injector.ActivityService.FindActivityByID(id)
 	if err != nil {
-		return utils.ResponseError(c, http.StatusInternalServerError, err.Error())
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
 
 	// validate
 	if activity.ID == "" {
-		return utils.ResponseError(c, http.StatusNotFound, "data not found")
+		return utils.ResponseError(c, fiber.StatusNotFound, "data not found")
 	}
 
-	return utils.ResponseSuccessData(c, http.StatusOK, activity, "")
+	return utils.ResponseSuccessData(c, fiber.StatusOK, activity, "")
 }

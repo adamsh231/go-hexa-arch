@@ -1,18 +1,17 @@
 package routes
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"go-hexa/internal/adapter/handler/http/handlers"
-
-	"github.com/labstack/echo/v4"
 )
 
-func registerActivityRoute(e *echo.Group, handler handlers.Handler) {
+func registerActivityRoute(e fiber.Router, handler handlers.Handler) {
 
 	// group
 	activityGroup := e.Group("/log")
 
 	// routes
-	activityGroup.GET("", handler.GetListActivities)
-	activityGroup.GET("/:id", handler.GetDetailActivity)
+	activityGroup.Get("", handler.GetListActivities)
+	activityGroup.Get("/:id", handler.GetDetailActivity)
 
 }

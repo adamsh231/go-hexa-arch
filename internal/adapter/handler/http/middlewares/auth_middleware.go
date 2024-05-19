@@ -1,23 +1,31 @@
 package middlewares
 
 import (
-	"go-hexa/utils"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/basicauth"
 )
 
-func ApiKeyMiddleware(apiKey string) echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			authKey := c.Request().Header.Get("x-api-key")
-			if authKey == "" {
-				return utils.ResponseError(c, http.StatusUnauthorized, "x-api-key required on request header")
+func BasicAuthMiddleware(apiKey string) fiber.Handler {
+	return basicauth.New(basicauth.Config{
+		Next: nil,
+		Users: map[string]string{
+			"john":  "doe",
+			"admin": "123456",
+		},
+		Realm: "",
+		Authorizer: func(user, pass string) bool {
+			if user == "john" && pass == "doe" {
+				return true
 			}
-			if authKey != apiKey {
-				return utils.ResponseError(c, http.StatusUnauthorized, "Unauthorized")
+			if user == "admin" && pass == "123456" {
+				return true
 			}
-			return next(c)
-		}
-	}
+			return false
+		},
+		Unauthorized: func(c *fiber.Ctx) error {
+			return c.SendFile("./unauthorized.html")
+		},
+		ContextUsername: "_user",
+		ContextPassword: "_pass",
+	})
 }

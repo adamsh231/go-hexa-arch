@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/labstack/echo/v4"
+	"github.com/gofiber/fiber/v2"
 )
 
 type ResponseUtil struct {
@@ -50,16 +50,16 @@ func CreateMetaPagination(page, limit, total int) ResponseMetaUtil {
 	}
 }
 
-func ResponseError(c echo.Context, statusCode int, message string) error {
+func ResponseError(c *fiber.Ctx, statusCode int, message string) error {
 	response := ResponseUtil{
 		Status: &ResponseStatusUtil{
 			Message: message,
 		},
 	}
-	return c.JSON(statusCode, response)
+	return c.Status(statusCode).JSON(response)
 }
 
-func ResponseListError(c echo.Context, statusCode int, message string, errs []error) error {
+func ResponseListError(c *fiber.Ctx, statusCode int, message string, errs []error) error {
 
 	// fill error
 	var errors []string
@@ -75,19 +75,19 @@ func ResponseListError(c echo.Context, statusCode int, message string, errs []er
 		},
 	}
 
-	return c.JSON(statusCode, response)
+	return c.Status(statusCode).JSON(response)
 }
 
-func ResponseSuccess(c echo.Context, statusCode int, message string) error {
+func ResponseSuccess(c *fiber.Ctx, statusCode int, message string) error {
 	response := ResponseUtil{
 		Status: &ResponseStatusUtil{
 			Message: message,
 		},
 	}
-	return c.JSON(statusCode, response)
+	return c.Status(statusCode).JSON(response)
 }
 
-func ResponseSuccessData(c echo.Context, statusCode int, data interface{}, message string) error {
+func ResponseSuccessData(c *fiber.Ctx, statusCode int, data interface{}, message string) error {
 	response := ResponseUtil{
 		Data: data,
 	}
@@ -96,10 +96,10 @@ func ResponseSuccessData(c echo.Context, statusCode int, data interface{}, messa
 			Message: message,
 		}
 	}
-	return c.JSON(statusCode, response)
+	return c.Status(statusCode).JSON(response)
 }
 
-func ResponseSuccessDataWithMeta(c echo.Context, statusCode int, data, meta interface{}, message string) error {
+func ResponseSuccessDataWithMeta(c *fiber.Ctx, statusCode int, data, meta interface{}, message string) error {
 	response := ResponseUtil{
 		Data: data,
 		Meta: meta,
@@ -109,5 +109,5 @@ func ResponseSuccessDataWithMeta(c echo.Context, statusCode int, data, meta inte
 			Message: message,
 		}
 	}
-	return c.JSON(statusCode, response)
+	return c.Status(statusCode).JSON(response)
 }
