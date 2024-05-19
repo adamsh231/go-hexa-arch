@@ -43,13 +43,13 @@ func RegisterHTTP() *cobra.Command {
 	}
 }
 
-// @Title			Majoo Logging Activity
-// @Version		1.0
-// @Description	Majoo Logging Activity
+// @Title			Golang Hexa Swagger
+// @Version			1.0
+// @Description		Golang hexagonal swagger documentation
 // @Contact.name	Adam Syarif Hidayatullah
 // @Contact.email	adam@majoo.id
 // @Host			/svc-activity
-// @Schemes		http https
+// @Schemes			http https
 // @BasePath		/
 func startHttp() {
 
