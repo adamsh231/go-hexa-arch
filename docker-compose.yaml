@@ -1,17 +1,19 @@
 services:
 
-  consumer:
-    container_name: "activity-consumer"
+  kafka:
+    container_name: "go-hexa-kafka"
     build:
       context: .
-    command: ["./main", "consumer"]
+    command: ["./main", "kafka"]
     volumes:
       - .env:/app/.env
       -
   http:
-    container_name: "activity-http"
+    container_name: "go-hexa-http"
     build:
       context: .
     command: [ "./main", "http" ]
+    ports:
+      - 8080:80
     volumes:
       - .env:/app/.env
