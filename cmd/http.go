@@ -2,34 +2,35 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
-	echoSwagger "github.com/swaggo/echo-swagger"
-	"go.elastic.co/apm/module/apmechov4/v2"
 	"net/http"
 	"svc-activity/config"
 	api "svc-activity/internal/adapter/handler/http/handlers"
 	"svc-activity/internal/adapter/handler/http/routes"
 	"svc-activity/utils"
 
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+	echoSwagger "github.com/swaggo/echo-swagger"
+	"go.elastic.co/apm/module/apmechov4/v2"
+
 	_ "svc-activity/docs"
 )
 
 var greetHTTP = `
-     _        _   _       _ _           _   _ _____ _____ ____  
-    / \   ___| |_(_)_   _(_) |_ _   _  | | | |_   _|_   _|  _ \ 
-   / _ \ / __| __| \ \ / / | __| | | | | |_| | | |   | | | |_) |
-  / ___ \ (__| |_| |\ V /| | |_| |_| | |  _  | | |   | | |  __/ 
- /_/   \_\___|\__|_| \_/ |_|\__|\__, | |_| |_| |_|   |_| |_|    
-                                |___/                           
+ _   _ _____ _____ ____     ____ __  __ ____  
+| | | |_   _|_   _|  _ \   / ___|  \/  |  _ \ 
+| |_| | | |   | | | |_) | | |   | |\/| | | | |
+|  _  | | |   | | |  __/  | |___| |  | | |_| |
+|_| |_| |_|   |_| |_|      \____|_|  |_|____/ 
+											  
 `
 
 func RegisterHTTP() *cobra.Command {
 	return &cobra.Command{
 		Use:   "http",
-		Short: "activity http",
+		Short: "http entrypoint",
 		Run: func(cmd *cobra.Command, args []string) {
 
 			// greet
@@ -42,14 +43,14 @@ func RegisterHTTP() *cobra.Command {
 	}
 }
 
-//	@Title			Majoo Logging Activity
-//	@Version		1.0
-//	@Description	Majoo Logging Activity
-//	@Contact.name	Adam Syarif Hidayatullah
-//	@Contact.email	adam@majoo.id
-//	@Host			/svc-activity
-//	@Schemes		http https
-//	@BasePath		/
+// @Title			Majoo Logging Activity
+// @Version		1.0
+// @Description	Majoo Logging Activity
+// @Contact.name	Adam Syarif Hidayatullah
+// @Contact.email	adam@majoo.id
+// @Host			/svc-activity
+// @Schemes		http https
+// @BasePath		/
 func startHttp() {
 
 	// init

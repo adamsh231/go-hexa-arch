@@ -3,7 +3,8 @@
 Application for massive logging user activities
 
 ## How to
-Majoo repository **svc-activity** currently has several commands, to run those application simply run these commands below.
+This pattern **(Hexagonal Architecture)** currently has several commands, to run those application simply run these commands below. You can simply 
+add more entypoints as you wish.
 - Consumer/Listener (Kafka Broker)
 ```  
 go run main.go consumer  

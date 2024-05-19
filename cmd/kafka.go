@@ -2,28 +2,29 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 	"svc-activity/config"
 	"svc-activity/internal/adapter/handler/consumer"
 	"svc-activity/internal/adapter/libraries/pubsub"
 	"svc-activity/utils"
 	"sync"
+
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 )
 
 var greetConsumer = `
-     _        _   _       _ _            ____                                          
-    / \   ___| |_(_)_   _(_) |_ _   _   / ___|___  _ __  ___ _   _ _ __ ___   ___ _ __ 
-   / _ \ / __| __| \ \ / / | __| | | | | |   / _ \| '_ \/ __| | | | '_ ' _ \ / _ \ '__|
-  / ___ \ (__| |_| |\ V /| | |_| |_| | | |__| (_) | | | \__ \ |_| | | | | | |  __/ |
- /_/   \_\___|\__|_| \_/ |_|\__|\__, |  \____\___/|_| |_|___/\__,_|_| |_| |_|\___|_|
-                                |___/
+ _  __    _    _____ _  __    _       ____ __  __ ____  
+| |/ /   / \  |  ___| |/ /   / \     / ___|  \/  |  _ \ 
+| ' /   / _ \ | |_  | ' /   / _ \   | |   | |\/| | | | |
+| . \  / ___ \|  _| | . \  / ___ \  | |___| |  | | |_| |
+|_|\_\/_/   \_\_|   |_|\_\/_/   \_\  \____|_|  |_|____/ 
+														
 `
 
 func RegisterConsumer() *cobra.Command {
 	return &cobra.Command{
-		Use:   "consumer",
-		Short: "activity consumer",
+		Use:   "kafka",
+		Short: "kafka listener",
 		Run: func(cmd *cobra.Command, args []string) {
 
 			// greet
